@@ -2,12 +2,13 @@ require 'yaml'
 
 module Pv
   class Configuration
-    attr_reader :username, :password, :attributes, :project_id, :name
+    attr_reader :username, :password, :token, :attributes, :project_id, :name
 
     def initialize
       @attributes = YAML::load_file from_path
       @username = @attributes['username']
       @password = @attributes['password']
+      @token = @attributes['token']
       @project_id = @attributes['project_id']
       @name = @attributes['name']
     end

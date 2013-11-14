@@ -10,7 +10,12 @@ module Pv
 
       @username = with_username || Pv.config.username
       @password = and_password  || Pv.config.password
-      @token = PivotalTracker::Client.token(username, password)
+
+      if Pv.config.token
+        @token  = PivotalTracker::Client.token = Pv.config.token
+      else
+        @token  = PivotalTracker::Client.token(username, password)
+      end
 
       @project = begin
         project_id = and_project_id || Pv.config.project_id
@@ -30,7 +35,7 @@ module Pv
     # Find stories filtered by this username.
     def stories by_user_name=nil
       user = by_user_name || Pv.config.name
-      @project.stories.all(owned_by: user).reject { |s| s.current_state =~ /accepted|delivered/ }
+      @project.stories.all(owned_by: user).reject { |s| s.current_state =~ /accepted/ }
     end
   end
 end

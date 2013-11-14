@@ -46,6 +46,10 @@ module Pv
       @pivotal_story.update(current_state: status)
     end
 
+    def point_scale(points)
+      @pivotal_story.update(estimate: points)
+    end
+
     # Test if this story has been saved on Pivotal.
     def saved?
       Pv.tracker.project.stories.find(id).present?
